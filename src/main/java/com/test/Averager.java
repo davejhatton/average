@@ -1,6 +1,7 @@
 package com.test;
 
 import java.util.Arrays;
+import java.util.OptionalDouble;
 
 public class Averager {
 
@@ -16,9 +17,9 @@ public class Averager {
     }
 
 
-    public static double getAvererageStream(int[] numbers){
+    public static OptionalDouble getAvererageStream(int[] numbers){
 
-       return  Arrays.stream(numbers).average().getAsDouble();
+       return  Arrays.stream(numbers).average();
     }
 
 }

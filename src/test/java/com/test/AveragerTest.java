@@ -22,20 +22,21 @@ public class AveragerTest {
     public void testStreamAverager() {
 
         int[] numbers = {1, 7};
-        assertEquals(4, Averager.getAvererageStream(numbers), 0.0);
+        Averager.getAvererageStream(numbers).ifPresent(r -> assertEquals(4, r, 0.0));
     }
 
 
     @Test
     public void testMaxValue() {
         int[] numbers = {Integer.MAX_VALUE, Integer.MIN_VALUE};
-        assertEquals((-2147483647 + 2147483647) / 2, Averager.getAvererageStream(numbers), 0.5);
+
+        Averager.getAvererageStream(numbers).ifPresent(r -> assertEquals((-2147483647 + 2147483647) / 2, r, 0.5));
     }
 
     @Test
     public void testNullArray() {
         int[] numbers = null;
         this.expectedException.expect(NullPointerException.class);
-        Averager.getAvererageStream(numbers);
+        Averager.getAvererageStream(numbers).getAsDouble();
     }
 }
