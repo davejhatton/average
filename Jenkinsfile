@@ -13,7 +13,7 @@ pipeline {
 
         stage ('Build') {
             steps {
-                shell 'mvn -Dmaven.test.failure.ignore=true verify'
+                bat 'mvn -Dmaven.test.failure.ignore=true verify'
             }
             post {
                 success {
