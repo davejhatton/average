@@ -5,15 +5,18 @@ pipeline {
         jdk 'jdk9'
     }
     stages {
-       stage ('Initialize') {
+        stage ('Initialize') {
             steps {
-               echo 'placeholder'
+                shell '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
             }
         }
 
         stage ('Build') {
             steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true verify'
+                shell 'mvn -Dmaven.test.failure.ignore=true verify'
             }
             post {
                 success {
