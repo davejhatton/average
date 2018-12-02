@@ -5,14 +5,11 @@ pipeline {
         jdk 'jdk9'
     }
     stages {
-      /*  stage ('Initialize') {
+       stage ('Initialize') {
             steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
+               echo 'placeholder'
             }
-        } */
+        }
 
         stage ('Build') {
             steps {
