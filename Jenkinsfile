@@ -8,11 +8,14 @@ pipeline {
         stage ('Initialize') {
             steps {
                 echo 'placeholder'
+                pwd
+                ls
             }
         }
 
         stage ('Build') {
             steps {
+
                 sh 'mvn -Dmaven.test.failure.ignore=true verify'
             }
             post {
