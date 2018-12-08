@@ -8,13 +8,12 @@ pipeline {
         stage ('Initialize') {
             steps {
                 echo 'placeholder'
-                isUnix
             }
         }
 
         stage ('Build') {
             steps {
-
+                isUnix
                 sh 'mvn -Dmaven.test.failure.ignore=true verify'
             }
             post {
