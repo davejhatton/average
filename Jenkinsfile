@@ -8,8 +8,7 @@ pipeline {
         stage ('Initialize') {
             steps {
                 echo 'placeholder'
-                pwd
-                ls
+                isUnix
             }
         }
 
