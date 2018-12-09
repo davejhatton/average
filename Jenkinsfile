@@ -11,15 +11,26 @@ pipeline {
                 echo 'placeholder'
             }
         }
-
         stage ('Build') {
             steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true clean verify'
+                sh 'mvn -Dmaven.test.failure.ignore=true clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
             }
             post {
-                success {
+                always {
                     junit 'target/surefire-reports/**/*.xml'
                 }
+            }
+        }
+        stage('SonarQube analysis') {
+                // requires SonarQube Scanner 2.8+
+                def scannerHome = tool 'SonarQube Scanner 2.8';
+                withSonarQubeEnv('My SonarQube Server') {
+                sh "${scannerHome}/bin/sonar-scanner"
             }
         }
     }
