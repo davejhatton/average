@@ -42,6 +42,4 @@ pipeline {
                                 recordIssues enabledForFailure: true, tools: [[pattern: '**/target/pmd.xml', tool: [$class: 'Pmd']]]
                 }
             }
-          }
-    }
 }
