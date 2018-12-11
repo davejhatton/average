@@ -20,18 +20,28 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
-            post {
+        }
+        stage ('Analysis') {
+             steps {
+                       sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs'
+                    }
+        }
+     }
+     post {
                 always {
                     junit 'target/surefire-reports/**/*.xml'
+
+                    recordIssues enabledForFailure: true,
+                                    tools: [[tool: [$class: 'MavenConsole']],
+                                            [tool: [$class: 'Java']],
+                                            [tool: [$class: 'JavaDoc']]]
+                                recordIssues enabledForFailure: true, tools: [[tool: [$class: 'CheckStyle']]]
+                                recordIssues enabledForFailure: true, tools: [[tool: [$class: 'FindBugs']]]
+                                recordIssues enabledForFailure: true, tools: [[tool: [$class: 'SpotBugs']]]
+                                recordIssues enabledForFailure: true, tools: [[pattern: '**/target/cpd.xml', tool: [$class: 'Cpd']]]
+                                recordIssues enabledForFailure: true, tools: [[pattern: '**/target/pmd.xml', tool: [$class: 'Pmd']]]
                 }
             }
-        }
-        stage('SonarQube analysis') {
-                // requires SonarQube Scanner 2.8+
-                def scannerHome = tool 'SonarQube Scanner 2.8';
-                withSonarQubeEnv('My SonarQube Server') {
-                sh "${scannerHome}/bin/sonar-scanner"
-            }
-        }
+          }
     }
 }
