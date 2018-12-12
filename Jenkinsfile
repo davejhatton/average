@@ -23,7 +23,7 @@ pipeline {
         }
         stage ('Analysis') {
              steps {
-                       sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs'
+                       sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs com.github.spotbugs:spotbugs-maven-plugin:3.1.7:spotbugs'
                     }
         }
      }
@@ -40,6 +40,12 @@ pipeline {
                                 recordIssues enabledForFailure: true, tools: [[tool: [$class: 'SpotBugs']]]
                                 recordIssues enabledForFailure: true, tools: [[pattern: '**/target/cpd.xml', tool: [$class: 'Cpd']]]
                                 recordIssues enabledForFailure: true, tools: [[pattern: '**/target/pmd.xml', tool: [$class: 'Pmd']]]
+                    jacoco(
+                            execPattern: 'target/*.exec',
+                            classPattern: 'target/classes',
+                            sourcePattern: 'src/main/java',
+                            exclusionPattern: 'src/test*'
+                    )
                 }
             }
 }
