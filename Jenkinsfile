@@ -40,6 +40,12 @@ pipeline {
                                 recordIssues enabledForFailure: true, tools: [[tool: [$class: 'SpotBugs']]]
                                 recordIssues enabledForFailure: true, tools: [[pattern: '**/target/cpd.xml', tool: [$class: 'Cpd']]]
                                 recordIssues enabledForFailure: true, tools: [[pattern: '**/target/pmd.xml', tool: [$class: 'Pmd']]]
+                    jacoco(
+                            execPattern: 'target/*.exec',
+                            classPattern: 'target/classes',
+                            sourcePattern: 'src/main/java',
+                            exclusionPattern: 'src/test*'
+                    )
                 }
             }
 }
